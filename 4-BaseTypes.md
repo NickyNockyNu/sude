@@ -184,7 +184,7 @@ end;
 ### Comparing
 
 We can create a similar "magic" class for comparing two values of the same type.
-```
+```Delphi
 type
   TCompare<T> = class
   type
