@@ -34,4 +34,4 @@ end;
 
 ### Step by step
 
-1. [Layout](1-layout.md)
+1. [Layout](./1-layout.md)
