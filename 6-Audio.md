@@ -30,7 +30,7 @@ And just like that, we can PEW! PEW! all day long!
 procedure TTest.OnStart;
 begin
   Audio.MIDI.Open;
-  Audio.MIDI.Instrument := 127; // Gunshot
+  Audio.MIDI.Instrument := Instruments.Gunshot;
 end;
 
 procedure TTest.OnButtonPressed(const AButton: Word);

@@ -1,5 +1,5 @@
 type
-  Colour = class abstract
+  Colours = class abstract
   public const
     // Specials
     None: TVector4f = (R:1; G:1; B:1; A:0);

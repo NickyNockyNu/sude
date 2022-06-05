@@ -12,7 +12,7 @@ begin
 
   FTextures[ATexture].Activate;
 
-  Surface.SetColour(Colour.White);
+  Surface.SetColour(Colours.White);
 
   glDisable(GL_DEPTH_TEST);
 
