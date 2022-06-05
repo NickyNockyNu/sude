@@ -36,4 +36,7 @@ end;
 
 1. [Layout](1-Layout.md)
 2. [The Singleton Window](2-TheSingletonWindow.md)
+3. [The Application Class](3-TheApplicationClass.md)
+
+
 
