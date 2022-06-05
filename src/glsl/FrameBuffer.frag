@@ -1,3 +1,12 @@
 #version 330 core
-in vec2 t;out vec4 c;uniform sampler2D b;void main(){c=texture(b,t);}
+
+in  vec2 pos;
+out vec4 colour;
+
+uniform sampler2D buffer;
+
+void main() 
+{
+  colour = texture(buffer, pos);
+ }
 
