@@ -33,10 +33,24 @@ uses
   Winapi.OpenGL,
   Winapi.OpenGLext;
 
+type
+  // Floating point type
+  Float = Single;
+
+// Core classes
 {$I .\intf\Exceptions.inc}
+{$I .\intf\Timing.inc}
+
+// Interface
+{$I .\intf\Window.inc}
 
 implementation
 
+// Core classes
 {$I .\impl\Exceptions.inc}
+{$I .\impl\Timing.inc}
+
+// Interface
+{$I .\impl\Window.inc}
 
 end.
