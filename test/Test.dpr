@@ -1,6 +1,5 @@
 program Test;
 
-{$APPTYPE CONSOLE}
 {$R *.res}
 
 uses
