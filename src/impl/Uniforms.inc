@@ -61,21 +61,27 @@ begin
   FShader   := AShader;
   FLocation := glGetUniformLocation(FShader, PAnsiChar(AnsiName));
 
-  //if FLocation = -1 then
-  //  raise EShader.Create('Unknown uniform "' + AName + '"');
-
   SetLength(FValues, 0);
+
+  if (FLocation = GL_INVALID_VALUE) or (FLocation = GL_INVALID_OPERATION) then
+  begin
+    FLocation := -2;
+    raise EShader.Create('Unknown uniform "' + AName + '"');
+  end;
 end;
 
 procedure TUniform.Unlink;
 begin
   FName     := '';
   FShader   := 0;
-  FLocation := -1;
+  FLocation := -2;
 end;
 
 procedure TUniform.SetValues;
 begin
+  if (FLocation < 0) or (Length(AValues) = 0) then
+    Exit;
+
   case Length(AValues) of
     1: glUniform1f(FLocation, AValues[0]);
     2: glUniform2f(FLocation, AValues[0], AValues[1]);
@@ -114,6 +120,9 @@ end;
 
 procedure TUniform.SetTexture;
 begin
+  if FLocation < 0 then
+    Exit;
+
   ATexture.Activate(AIndex);
   glUniform1i(FLocation, AIndex);
 end;

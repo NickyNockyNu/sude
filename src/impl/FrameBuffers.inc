@@ -1,27 +1,62 @@
+class constructor TFrameBuffer.Create;
+begin
+  FVBO := 0;
+  FVAO := 0;
+end;
+
+class destructor TFrameBuffer.Destroy;
+begin
+  glDeleteVertexArrays(1, @FVAO);
+  glDeleteBuffers(1, @FVBO);
+
+  FShader.Free;
+end;
+
+class procedure TFrameBuffer.CreateBuffers;
+const
+  Vertices: array[0..11] of Float = (
+    -1,  1,
+     1, -1,
+    -1, -1,
+
+    -1,  1,
+     1,  1,
+     1, -1
+  );
+begin
+  glGenVertexArrays(1, @FVAO);
+  glGenBuffers     (1, @FVBO);
+
+  glBindVertexArray(FVAO);
+  glBindBuffer(GL_ARRAY_BUFFER, FVBO);
+
+  glBufferData(GL_ARRAY_BUFFER, SizeOf(Vertices), @Vertices[0], GL_STATIC_DRAW);
+
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * SizeOf(Float), nil);
+
+  glBindVertexArray(0);
+
+  FShader := TShader.CreateFromSource(ShaderVertex, ShaderFragment);
+end;
+
 procedure TFrameBuffer.Draw;
 begin
   if (ATexture >= Length(FTextures)) or (ATexture < 0) then
     Exit;
 
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity;
-
-  glOrtho(0, 1, 0, 1, 0, 1);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity;
-
-  FTextures[ATexture].Activate;
-
-  Surface.SetColour(Colours.White);
+  if FVBO = 0 then
+    CreateBuffers;
 
   glDisable(GL_DEPTH_TEST);
 
-  glBegin(GL_QUADS);
-    glTexCoord2f(0, 0); glVertex2i(0, 0);
-    glTexCoord2f(1, 0); glVertex2i(1, 0);
-    glTexCoord2f(1, 1); glVertex2i(1, 1);
-    glTexCoord2f(0, 1); glVertex2i(0, 1);
-  glEnd;
+  FTextures[ATexture].Activate;
+
+  FShader.Activate;
+
+  glBindVertexArray(FVAO);
+  glDrawArrays(GL_TRIANGLES, 0, 6);
+  glBindVertexArray(0);
 
   TTexture.Deactivate;
   TShader.Deactivate;
