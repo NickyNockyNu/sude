@@ -11,7 +11,7 @@ The project goals are (subject to change):
 
 The initial goal is to get something working that only requires the use to create something similar to
 
-'''delphi
+'''pascal
 program Test;
 
 uses
