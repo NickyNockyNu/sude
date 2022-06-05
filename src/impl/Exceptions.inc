@@ -61,40 +61,11 @@ begin
   FExitCode := AExitCode;
 end;
 
-function PointerToStr(const APointer: Pointer): String;
-const
-  HexPrefix = '0x';
-  HexChars  = '0123456789ABCDEF';
-var
-  PtrUInt: UIntPtr;
-  PtrSize: Integer;
-begin
-  Result := '';
-
-  PtrUInt := UIntPtr(APointer);
-
-  if PtrUInt = 0 then
-    Result := HexChars[1]
-  else
-    while PtrUInt > 0 do
-    begin
-      Result := HexChars[(PtrUInt mod 16) + 1] + Result;
-      PtrUInt := PtrUInt shr 4;
-    end;
-
-  PtrSize := SizeOf(Pointer) shl 1;
-
-  while Length(Result) < PtrSize do
-    Result := HexChars[1] + Result;
-
-  Result := HexPrefix + Result;
-end;
-
 class procedure TException.Handler;
 var
   ErrorMessage: String;
 begin
-  ErrorMessage := ExceptObject.ClassName + ' at ' + PointerToStr(ExceptAddr);
+  ErrorMessage := ExceptObject.ClassName + ' at ' + ExceptAddr.ToString;
 
   if Length(TException(ExceptObject).FDetails) > 0 then
     ErrorMessage := ErrorMessage + #13#10 + TException(ExceptObject).FDetails;
