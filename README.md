@@ -17,3 +17,5 @@ I wont be going into too much detail about how the code actually works, you can 
 2. [The Singleton Window](2-TheSingletonWindow.md)
 3. [The Application Class](3-TheApplicationClass.md)
 4. [Base Types](4-BaseTypes.md)
+5. [Input](5-Input.md)
+

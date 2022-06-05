@@ -27,12 +27,9 @@ end;
 procedure TTest.OnRender;
 begin
   Surface.Clear(Colour.Cobalt);
-
   Surface.SetBlendMode(TBlendMode.Alpha);
 
   Surface.Line(10, 10, 246, 182, Colour.Red);
-
-  Surface.SetColour(Colour.White);
 end;
 
 begin

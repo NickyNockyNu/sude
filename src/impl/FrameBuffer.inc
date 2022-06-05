@@ -12,6 +12,8 @@ begin
 
   FTextures[ATexture].Activate;
 
+  Surface.SetColour(Colour.White);
+
   glDisable(GL_DEPTH_TEST);
 
   glBegin(GL_QUADS);
