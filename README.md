@@ -35,5 +35,5 @@ end;
 ### Step by step
 
 1. [Layout](1-Layout.md)
-2. [The Singleton Window](2-The Singleton Window.md)
+2. [The Singleton Window](2-TheSingletonWindow.md)
 
