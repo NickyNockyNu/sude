@@ -2,12 +2,13 @@
 
 class constructor Window.Create;
 begin
-  FRunning := False;
+  FApplication := nil;
+  FRunning     := False;
 
   FShowFramesPerSecond := True;
   FShowSecondsPerFrame := False;
-  FShowFrameDelta      := False;
-  FShowElapsed         := False;
+  FShowFrameDelta      := True;
+  FShowElapsed         := True;
 
   CtorClass;
   CtorWindow;
@@ -136,6 +137,28 @@ class function Window.WindowProc;
 begin
   case AMsg of
     WM_CLOSE: PostQuitMessage(0);
+
+    WM_KEYDOWN, WM_SYSKEYDOWN: Input.Buttons.Pressed (AwParam);
+    WM_KEYUP,   WM_SYSKEYUP:   Input.Buttons.Released(AwParam);
+
+    WM_LBUTTONDOWN: begin Input.Buttons.Pressed(VK_LBUTTON); SetCapture(Handle); end;
+    WM_MBUTTONDOWN: begin Input.Buttons.Pressed(VK_MBUTTON); SetCapture(Handle); end;
+    WM_RBUTTONDOWN: begin Input.Buttons.Pressed(VK_RBUTTON); SetCapture(Handle); end;
+
+    WM_LBUTTONUP: begin Input.Buttons.Released(VK_LBUTTON); ReleaseCapture; end;
+    WM_MBUTTONUP: begin Input.Buttons.Released(VK_MBUTTON); ReleaseCapture; end;
+    WM_RBUTTONUP: begin Input.Buttons.Released(VK_RBUTTON); ReleaseCapture; end;
+
+    WM_MOUSEMOVE:  Input.Mouse.Moved(SmallInt(AlParam and $FFFF), SmallInt((AlParam shr 16) and $FFFF));
+    WM_MOUSEWHEEL: Input.Mouse.Scrolled(SmallInt((AwParam and $FFFF0000) shr 16) div WHEEL_DELTA);
+
+    MM_JOY1BUTTONDOWN, MM_JOY1BUTTONUP,
+    MM_JOY2BUTTONDOWN, MM_JOY2BUTTONUP:
+      Input.Gamepad.PollButtons(True);
+
+    MM_JOY1MOVE, MM_JOY1ZMOVE,
+    MM_JOY2MOVE, MM_JOY2ZMOVE:
+      Input.Gamepad.PollSticks(True);
   end;
 
   Result := DefWindowProc(AWnd, AMsg, AwParam, AlParam);
@@ -143,11 +166,23 @@ end;
 
 class procedure Window.Update;
 begin
+  if not Assigned(FApplication) then
+    Exit;
+
+  FApplication.OnUpdate(ADelta);
+
   Inc(FUpdateCount);
 end;
 
 class procedure Window.Render;
 begin
+  if not Assigned(FApplication) then
+    Exit;
+
+  Surface.Prepare;
+  FApplication.OnRender;
+  Surface.Present;
+
   if FVSync then
     DwmFlush;
 
@@ -163,8 +198,8 @@ begin
   if FScale < 1 then
     FScale := 1;
 
-  FClientWidth  := Trunc(FWidth  * FScale);
-  FClientHeight := Trunc(FHeight * FScale);
+  FClientWidth  := Trunc(Surface.Width  * FScale);
+  FClientHeight := Trunc(Surface.Height * FScale);
 
   var Rect := TRect.Create(0, 0, FClientWidth, FClientHeight);
   AdjustWindowRectEx(Rect, Style, False, StyleEx);
@@ -189,10 +224,12 @@ var
 
   FPSTime: Double;
 begin
-  if FRunning then
+  if FRunning or (not Assigned(AApplication)) then
     Exit;
 
   try
+    FApplication := AApplication;
+
     FUpdateCount := 0;
     FFrameCount  := 0;
 
@@ -202,12 +239,13 @@ begin
     FSecondsPerFrame := 0;
     FFrameDelta      := 1;
 
-    FWidth  := AWidth;
-    FHeight := AHeight;
-
     SetScale(FScale);
 
+    Input.Reset;
+
     ShowWindow(FHandle, SW_SHOW);
+
+    FApplication.OnStart;
 
     FRunning := True;
 
@@ -223,7 +261,7 @@ begin
     repeat
       FSecondsPerFrame := FrameTimer.Reset;
 
-      Delta      := FFrequency * FSecondsPerFrame;
+      Delta      := FApplication.Speed * FFrequency * FSecondsPerFrame;
       DeltaTotal := DeltaTotal + Delta;
 
       Update(Delta);
@@ -250,9 +288,13 @@ begin
         Stop;
     until not FRunning;
 
+    FApplication.OnStop;
+
     ShowWindow(FHandle, SW_HIDE);
   finally
     Stop;
+
+    FApplication := nil;
   end;
 end;
 
@@ -266,16 +308,15 @@ var
   Title: String;
 
   procedure AppendTitle(const AEnable: Boolean; const AValue: Float; const APrefix: String; const APrec: Integer = 0);
-  var
-    SValue: ShortString;
   begin
-    Str(AValue:APrec:APrec, SValue);
-
     if AEnable then
-      Title := Title + '  ●  ' + String(SValue) + APrefix;
+      Title := Title + '  ●  ' + AValue.ToString(APrec) + APrefix;
   end;
 begin
-  Title := 'sude';
+  if Assigned(FApplication) then
+    Title := FApplication.Title
+  else
+    Title := 'sude';
 
   if FRunning then
   begin

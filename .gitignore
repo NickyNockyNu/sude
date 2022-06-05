@@ -1,6 +1,7 @@
 **/__history
 **/__recovery
 **/dcu
+**/bin
 **/*.~*
 **/*.dcu
 **/*.dproj
@@ -9,6 +10,3 @@
 **/*.exe
 **/*.map
 **/*.delphilsp.json
-
-
-

@@ -3,11 +3,7 @@ var
   Frequency: Int64;
 begin
   FUsePerformanceCounter := QueryPerformanceFrequency(Frequency);
-
-  if FUsePerformanceCounter then
-    FTickScale := 1 / Frequency
-  else
-    FTickScale := 0.001;
+  FTickScale := FUsePerformanceCounter.&if(1 / Frequency, 0.001);
 end;
 
 class function TickService.Seconds;

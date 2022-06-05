@@ -68,7 +68,6 @@ type
 {$I .\intf\Uniform.inc}
 {$I .\intf\Shader.inc}
 {$I .\intf\FrameBuffer.inc}
-{$I .\intf\Sprites.inc}
 
 // Interface
 {$I .\intf\Application.inc}
@@ -108,7 +107,6 @@ implementation
 {$I .\impl\Uniform.inc}
 {$I .\impl\Shader.inc}
 {$I .\impl\FrameBuffer.inc}
-{$I .\impl\Sprites.inc}
 
 // Interface
 {$I .\impl\Application.inc}

@@ -10,9 +10,6 @@ type
     FDeviceContext: HDC;
     FRenderContext: HGLRC;
 
-    FWidth:  Integer;
-    FHeight: Integer;
-
     FClientWidth:  Integer;
     FClientHeight: Integer;
 
@@ -29,6 +26,8 @@ type
     FElapsed: TTimer;
 
     FScale: Single;
+
+    FApplication: TApplication;
 
     FRunning: Boolean;
 
@@ -57,7 +56,7 @@ type
 
     class function GetElapsed: Double; static;
   public
-    class procedure Run(const AWidth, AHeight: Integer);
+    class procedure Run(const AApplication: TApplication);
     class procedure Stop;
 
     class procedure UpdateTitle;
@@ -71,9 +70,6 @@ type
 
     class property Scale: Single read FScale write SetScale;
 
-    class property Width:  Integer read FWidth;
-    class property Height: Integer read FHeight;
-
     class property ClientWidth:  Integer read FClientWidth;
     class property ClientHeight: Integer read FClientHeight;
 
@@ -81,6 +77,8 @@ type
     class property Frequency: Integer read FFrequency write FFrequency;
 
     class property Elapsed: Double read GetElapsed;
+
+    class property Application: TApplication read FApplication;
 
     class property Running: Boolean read FRunning;
 

@@ -88,7 +88,7 @@ begin
 end;
 ```
 
-### Operators
+## Operators
 
 It would be nice if our vector class supported operator overloading but as the type of T is unknown and could be a type that doesn't support the operator, the compiler will be unable to figure out how to do this.
 We can fix that by making a "magic" generics class that will contain all the basic operations of each base type.
@@ -181,7 +181,7 @@ begin
 end;
 ```
 
-### Comparing
+## Comparing
 
 We can create a similar "magic" class for comparing two values of the same type.
 ```Delphi

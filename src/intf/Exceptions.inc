@@ -20,7 +20,10 @@ type
   ESafecall = class(TException);
   EAbstract = class(TException);
 
-  EWindow = class(TException);
-  EOpenGL = class(TException);
+  EWindow      = class(TException);
+  EOpenGL      = class(TException);
+  EFrameBuffer = class(TException);
+  ETexture     = class(TException);
+  EShader      = class(TException);
 
 
