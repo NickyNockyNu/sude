@@ -57,17 +57,17 @@ type
 
 // Maths
 {$I .\intf\Geometry.inc}
-{$I .\intf\Matrix.inc}
+{$I .\intf\Matrices.inc}
 
 // Multimedia
 {$I .\intf\Colours.inc}
 {$I .\intf\Audio.inc}
 
 // OpenGL
-{$I .\intf\Texture.inc}
-{$I .\intf\Uniform.inc}
-{$I .\intf\Shader.inc}
-{$I .\intf\FrameBuffer.inc}
+{$I .\intf\Textures.inc}
+{$I .\intf\Uniforms.inc}
+{$I .\intf\Shaders.inc}
+{$I .\intf\FrameBuffers.inc}
 
 // Interface
 {$I .\intf\Application.inc}
@@ -96,17 +96,17 @@ implementation
 
 // Maths
 {$I .\impl\Geometry.inc}
-{$I .\impl\Matrix.inc}
+{$I .\impl\Matrices.inc}
 
 // Multimedia
 {$I .\impl\Colours.inc}
 {$I .\impl\Audio.inc}
 
 // OpenGL
-{$I .\impl\Texture.inc}
-{$I .\impl\Uniform.inc}
-{$I .\impl\Shader.inc}
-{$I .\impl\FrameBuffer.inc}
+{$I .\impl\Textures.inc}
+{$I .\impl\Uniforms.inc}
+{$I .\impl\Shaders.inc}
+{$I .\impl\FrameBuffers.inc}
 
 // Interface
 {$I .\impl\Application.inc}

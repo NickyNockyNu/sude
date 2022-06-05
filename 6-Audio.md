@@ -1,4 +1,4 @@
-# 6 - Audio
+# Audio
 
 It may seem odd to add basic audio support before we are even drawing anything but there is a reason for this;
 I've been spending hours on OpenGL code and need a break. :)

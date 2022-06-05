@@ -1,4 +1,4 @@
-# 2 - The Singleton Window
+# The Singleton Window
 
 For simplicity, our engine will only use one window. Now we could use global scope procedures to manage and control this but there is another approach that may upset a lot of Pascal coders... Using an abstract class as a singleton!
 

@@ -1,4 +1,4 @@
-# 5 - Input
+# Input
 
 There are currently 3 supported input methods
 1. Buttons
