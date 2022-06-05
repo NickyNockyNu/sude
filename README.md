@@ -15,19 +15,19 @@ The initial goal is to get something working that only requires the use to creat
 program Test;
 
 uses
-	sude;
-	
+  sude;
+
 type
-	TMyApp = class(TApplication)
-		procedure OnRender; override;
-	end;
-	
+  TMyApp = class(TApplication)
+    procedure OnRender; override;
+  end;
+
 procedure TMyApp.OnRender;
 begin
-	// Render code will go here
+  // Render code will go here
 end;
 
 begin
-	TMyApp.Run;
+  TMyApp.Run;
 end;
 ```
